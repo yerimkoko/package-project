@@ -25,9 +25,8 @@ public class PackageController {
     private final PackageService packageService;
 
     @PostMapping("/v1/package")
-    public ApiResponse<String> addPackage(@Valid @RequestBody AddPackageRequest request) {
-        packageService.addPackage(request);
-        return ApiResponse.OK;
+    public ApiResponse<Long> addPackage(@Valid @RequestBody AddPackageRequest request) {
+        return ApiResponse.success(packageService.addPackage(request));
     }
 
     @GetMapping("/v1/package/{packageId}")

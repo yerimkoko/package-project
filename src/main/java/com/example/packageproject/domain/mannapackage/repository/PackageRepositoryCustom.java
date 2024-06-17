@@ -11,8 +11,10 @@ public interface PackageRepositoryCustom {
 
     Package findByPackageId(@NotNull Long packageId);
 
-    List<Package> findAllPackagesBySizeAndLastId(int size,
+    List<Package> findAllPackagesBySizeAndCursor(int size,
                                                  @Nullable Long cursor);
+
+    Long existTrackingNo(Long trackingNo);
 
 
 }

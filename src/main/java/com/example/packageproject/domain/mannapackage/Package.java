@@ -30,9 +30,8 @@ public class Package extends BaseEntity {
     @OneToMany(mappedBy = "pkg", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PackageImage> packageImages = new ArrayList<>();
 
-
     @Builder
-    public Package(Long trackingNo, PackageStatus status) {
+    private Package(Long trackingNo, PackageStatus status) {
         this.trackingNo = trackingNo;
         this.status = status;
     }
@@ -40,7 +39,6 @@ public class Package extends BaseEntity {
     public void add(PackageImage image) {
         this.packageImages.add(image);
     }
-
 
     public void delete() {
         this.status = PackageStatus.DELETED;
@@ -58,4 +56,5 @@ public class Package extends BaseEntity {
                 .status(PackageStatus.ACTIVE)
                 .build();
     }
+
 }

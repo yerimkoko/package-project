@@ -25,13 +25,22 @@ public class PackageRepositoryCustomImpl implements PackageRepositoryCustom {
     }
 
     @Override
-    public List<Package> findAllPackagesBySizeAndLastId(int size, Long cursor) {
+    public List<Package> findAllPackagesBySizeAndCursor(int size, Long cursor) {
         return jpaQueryFactory.selectFrom(package$)
                 .where(getCursor(cursor),
                         package$.status.eq(PackageStatus.ACTIVE))
                 .orderBy(package$.id.desc())
                 .limit(size)
                 .fetch();
+    }
+
+    @Override
+    public Long existTrackingNo(Long trackingNo) {
+        return jpaQueryFactory.select(package$.id)
+                .from(package$)
+                .where(package$.trackingNo.eq(trackingNo))
+                .limit(1)
+                .fetchOne();
     }
 
 

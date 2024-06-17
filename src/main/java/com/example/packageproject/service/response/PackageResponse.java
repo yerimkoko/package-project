@@ -1,7 +1,6 @@
 package com.example.packageproject.service.response;
 
 import com.example.packageproject.domain.mannapackage.Package;
-import com.example.packageproject.domain.mannapackage.packageimage.PackageImage;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ public class PackageResponse {
     private List<PackageImageResponse> images;
 
     @Builder
-    public PackageResponse(Long id, Long trackingNo, List<PackageImageResponse> images) {
+    private PackageResponse(Long id, Long trackingNo, List<PackageImageResponse> images) {
         this.id = id;
         this.trackingNo = trackingNo;
         this.images = images;

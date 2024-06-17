@@ -16,7 +16,7 @@ public class PackageImageResponse {
     private String fileName;
 
     @Builder
-    public PackageImageResponse(PackageType packageType, String fileName) {
+    private PackageImageResponse(PackageType packageType, String fileName) {
         this.packageType = packageType;
         this.fileName = fileName;
     }

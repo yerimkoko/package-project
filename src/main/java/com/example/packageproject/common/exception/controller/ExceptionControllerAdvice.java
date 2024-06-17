@@ -1,6 +1,7 @@
 package com.example.packageproject.common.exception.controller;
 
 import com.example.packageproject.common.ApiResponse;
+import com.example.packageproject.common.exception.ConflictException;
 import com.example.packageproject.common.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,13 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse<Object> handleNotFoundException(NotFoundException e) {
+        log.error(e.getErrorCode().getMessage(), e);
+        return ApiResponse.error(e.getErrorCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiResponse<Object> handleConflictException(ConflictException e) {
         log.error(e.getErrorCode().getMessage(), e);
         return ApiResponse.error(e.getErrorCode(), e.getMessage());
     }

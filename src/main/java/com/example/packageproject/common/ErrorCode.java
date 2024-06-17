@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum ErrorCode {
 
     E400_INVALID(400, "invalid_request", "잘못된 요청입니다."),
-    E404_NOT_FOUND(404, "not_found", "찾을 수 없습니다");
+    E404_NOT_FOUND(404, "not_found", "찾을 수 없습니다"),
+    E409_DUPLICATED(409, "conflict", "서버와 요청이 충돌했습니다");
 
     private final int status;
 

@@ -1,5 +1,6 @@
 package com.example.packageproject.service;
 
+import com.example.packageproject.common.exception.ConflictException;
 import com.example.packageproject.common.exception.NotFoundException;
 import com.example.packageproject.domain.mannapackage.Package;
 import com.example.packageproject.domain.mannapackage.repository.PackageRepository;
@@ -20,8 +21,10 @@ public class PackageService {
     private final PackageRepository packageRepository;
 
     @Transactional
-    public void addPackage(AddPackageRequest request) {
-        packageRepository.save(request.toEntity());
+    public Long addPackage(AddPackageRequest request) {
+        validatePackage(request.getTrackingNo());
+        Package pkg = packageRepository.save(request.toEntity());
+        return pkg.getId();
     }
 
     @Transactional
@@ -34,10 +37,9 @@ public class PackageService {
     @Transactional
     public void updatePackage(Long packageId,
                               UpdatePackageRequest request) {
-
+        validatePackage(request.getTrackingNo());
         Package pkg = findByPackageId(packageId);
         pkg.update(request.getTrackingNo(), request.toEntity(pkg));
-
     }
 
     @Transactional(readOnly = true)
@@ -46,16 +48,21 @@ public class PackageService {
         return PackageResponse.of(pkg);
     }
 
-
     @Transactional(readOnly = true)
     public PackageAndCursorResponse getPackages(int size,
                                                 Long cursor) {
-        List<Package> packages = packageRepository.findAllPackagesBySizeAndLastId(size + 1, cursor);
+        List<Package> packages = packageRepository.findAllPackagesBySizeAndCursor(size + 1, cursor);
         if (packages.size() < size + 1) {
             return PackageAndCursorResponse.noMore(packages);
         }
         return PackageAndCursorResponse.hasNext(packages);
+    }
 
+    private void validatePackage(Long trackingNo) {
+        Long validatePackage = packageRepository.existTrackingNo(trackingNo);
+        if (validatePackage != null) {
+            throw new ConflictException(String.format("(%s)는 이미 존재하는 운송장 번호 입니다.", trackingNo));
+        }
     }
 
     private Package findByPackageId(Long packageId) {

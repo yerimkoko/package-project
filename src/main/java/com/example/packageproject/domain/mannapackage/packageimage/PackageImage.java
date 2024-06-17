@@ -33,7 +33,7 @@ public class PackageImage extends BaseEntity {
     private Package pkg;
 
     @Builder
-    public PackageImage(PackageType packageType, String fileName, Package pkg) {
+    private PackageImage(PackageType packageType, String fileName, Package pkg) {
         this.packageType = packageType;
         this.fileName = fileName;
         this.pkg = pkg;
