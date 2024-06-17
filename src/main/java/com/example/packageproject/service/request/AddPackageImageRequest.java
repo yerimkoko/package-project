@@ -1,0 +1,31 @@
+package com.example.packageproject.service.request;
+
+import com.example.packageproject.domain.mannapackage.Package;
+import com.example.packageproject.domain.mannapackage.PackageType;
+import com.example.packageproject.domain.mannapackage.packageimage.PackageImage;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class AddPackageImageRequest {
+
+    @NotNull
+    private PackageType packageType;
+
+    @NotBlank
+    private String fileName;
+
+
+    public AddPackageImageRequest(PackageType packageType, String fileName) {
+        this.packageType = packageType;
+        this.fileName = fileName;
+    }
+
+    public PackageImage toEntity(Package pkg) {
+        return PackageImage.of(pkg, packageType, fileName);
+    }
+}

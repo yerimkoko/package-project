@@ -1,0 +1,41 @@
+### Package 추가
+POST {{host_api}}/v1/package
+Content-Type: application/json
+
+{
+  "trackingNo": 111122223333,
+  "images": [
+    {
+      "fileName": "image1.png",
+      "packageType": "PKG"
+    }
+  ]
+}
+
+### Package 수정
+PUT {{host_api}}/v1/package/1
+Content-Type: application/json
+
+{
+  "trackingNo": 222211113333,
+  "images": [
+    {
+      "fileName": "image13333333333.png",
+      "packageType": "PKG"
+    }
+  ]
+}
+
+### Package 제거
+DELETE {{host_api}}/v1/package/1
+Content-Type: application/json
+
+
+### Package 전체 조회 (커서 기반)
+GET {{host_api}}/v1/packages?size=4&cursor=2
+Content-Type: application/json
+
+
+### Package 단건 조회
+GET {{host_api}}/v1/package/1
+Content-Type: application/json
