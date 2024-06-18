@@ -49,10 +49,9 @@ public class PackageService {
     }
 
     @Transactional(readOnly = true)
-    public PackageAndCursorResponse getPackages(int size,
-                                                Long cursor) {
+    public PackageAndCursorResponse getPackages(int size, Long cursor) {
         List<Package> packages = packageRepository.findAllPackagesBySizeAndCursor(size + 1, cursor);
-        if (packages.size() < size + 1) {
+        if (packages.isEmpty() || packages.size() <= size) {
             return PackageAndCursorResponse.noMore(packages);
         }
         return PackageAndCursorResponse.hasNext(packages);
@@ -72,6 +71,5 @@ public class PackageService {
         }
         return pkg;
     }
-
 
 }

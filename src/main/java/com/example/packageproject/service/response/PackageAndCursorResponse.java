@@ -26,21 +26,22 @@ public class PackageAndCursorResponse {
 
     public static PackageAndCursorResponse hasNext(List<Package> packages) {
         return PackageAndCursorResponse.builder()
-                .cursor(CursorResponse.hasNext(packages))
-                .packages(getPackages(packages))
+                .cursor(CursorResponse.builder()
+                        .nextCursor(packages.get(packages.size() - 2).getId())
+                        .hasNext(true)
+                        .build())
+                .packages(convertToResponse(packages.subList(0, packages.size() - 1)))
                 .build();
-
     }
 
     public static PackageAndCursorResponse noMore(List<Package> packages) {
         return PackageAndCursorResponse.builder()
                 .cursor(CursorResponse.noMore())
-                .packages(getPackages(packages))
+                .packages(convertToResponse(packages))
                 .build();
     }
 
-
-    private static List<PackageResponse> getPackages(List<Package> packages) {
+    private static List<PackageResponse> convertToResponse(List<Package> packages) {
         return packages.stream()
                 .map(PackageResponse::of)
                 .collect(Collectors.toList());

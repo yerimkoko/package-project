@@ -13,7 +13,7 @@ public class PackagesRequest {
     @Nullable
     private Long cursor;
 
-    @Max(value = 30)
+    @Max(30)
     private int size;
 
     private PackagesRequest(Long cursor, int size) {

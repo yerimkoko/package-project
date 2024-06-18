@@ -126,7 +126,7 @@ public class PackageServiceTest extends IntegrationTest {
     }
 
     @Test
-    void 패키지를_수정한다() {
+    void 패키지를_수정합니다() {
         // given
         Package pkg = createPackage();
         Long trackingNo = 123L;
@@ -140,7 +140,12 @@ public class PackageServiceTest extends IntegrationTest {
 
         // then
         List<Package> pkgList = packageRepository.findAll();
-        assertThat(pkgList.get(0).getTrackingNo()).isEqualTo(trackingNo);
+        assertThat(pkgList).hasSize(1);
+        assertPackage(pkgList.get(0), trackingNo);
+
+        List<PackageImage> pkgImages = packageImageRepository.findAll();
+        assertThat(pkgImages).hasSize(1);
+        assertPackageImage(pkgImages.get(0), fileName, packageType);
 
     }
 
