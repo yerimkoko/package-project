@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -33,12 +34,13 @@ public class PackageService {
         pkg.delete();
     }
 
-
     @Transactional
     public void updatePackage(Long packageId,
                               UpdatePackageRequest request) {
-        validatePackage(request.getTrackingNo());
         Package pkg = findByPackageId(packageId);
+        if (!Objects.equals(pkg.getTrackingNo(), request.getTrackingNo())) {
+            validatePackage(request.getTrackingNo());
+        }
         pkg.update(request.getTrackingNo(), request.toEntity(pkg));
     }
 

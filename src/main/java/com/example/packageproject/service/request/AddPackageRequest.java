@@ -15,6 +15,7 @@ public class AddPackageRequest {
     @NotNull
     private Long trackingNo;
 
+    @NotNull
     private List<AddPackageImageRequest> images;
 
     public AddPackageRequest(Long trackingNo, List<AddPackageImageRequest> images) {
