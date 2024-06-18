@@ -20,7 +20,7 @@ public class PackageRepositoryCustomImpl implements PackageRepositoryCustom {
     @Override
     public Package findByPackageId(Long packageId) {
         return jpaQueryFactory.selectFrom(package$)
-                .innerJoin(package$.packageImages, packageImage).fetchJoin()
+                .leftJoin(package$.packageImages, packageImage).fetchJoin()
                 .where(package$.id.eq(packageId),
                         package$.status.eq(PackageStatus.ACTIVE))
                 .fetchOne();
@@ -37,7 +37,7 @@ public class PackageRepositoryCustomImpl implements PackageRepositoryCustom {
                 .fetch();
 
         return jpaQueryFactory.selectFrom(package$)
-                .innerJoin(package$.packageImages, packageImage).fetchJoin()
+                .leftJoin(package$.packageImages, packageImage).fetchJoin()
                 .where(package$.id.in(packageIds))
                 .orderBy(package$.id.desc())
                 .fetch();
