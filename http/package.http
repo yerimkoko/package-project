@@ -32,8 +32,9 @@ Content-Type: application/json
 
 
 ### Package 전체 조회 (커서 기반)
-GET {{host_api}}/v1/packages?size=4&cursor=2
+GET {{host_api}}/v1/packages?size=1&cursor=3
 Content-Type: application/json
+
 
 
 ### Package 단건 조회
