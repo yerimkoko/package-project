@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.example.packageproject.domain.mannapackage.QPackage.package$;
+import static com.example.packageproject.domain.mannapackage.packageimage.QPackageImage.packageImage;
 
 
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class PackageRepositoryCustomImpl implements PackageRepositoryCustom {
     @Override
     public Package findByPackageId(Long packageId) {
         return jpaQueryFactory.selectFrom(package$)
+                .innerJoin(package$.packageImages, packageImage).fetchJoin()
                 .where(package$.id.eq(packageId),
                         package$.status.eq(PackageStatus.ACTIVE))
                 .fetchOne();
@@ -26,11 +28,18 @@ public class PackageRepositoryCustomImpl implements PackageRepositoryCustom {
 
     @Override
     public List<Package> findAllPackagesBySizeAndCursor(int size, Long cursor) {
-        return jpaQueryFactory.selectFrom(package$)
+        List<Long> packageIds = jpaQueryFactory.select(package$.id)
+                .from(package$)
                 .where(getCursor(cursor),
                         package$.status.eq(PackageStatus.ACTIVE))
                 .orderBy(package$.id.desc())
                 .limit(size)
+                .fetch();
+
+        return jpaQueryFactory.selectFrom(package$)
+                .innerJoin(package$.packageImages, packageImage).fetchJoin()
+                .where(package$.id.in(packageIds))
+                .orderBy(package$.id.desc())
                 .fetch();
     }
 
